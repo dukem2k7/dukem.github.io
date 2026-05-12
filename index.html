@@ -1,0 +1,405 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <script src="/ruffle/ruffle.js"></script> 
+    <script> 
+    window.RufflePlayer = window.RufflePlayer || {}; 
+    window.RufflePlayer.config = { 
+        "polyfill": true, 
+        "autoplay": "on",        // Tells Ruffle to try to play immediately 
+        "unmuteOverlay": "hidden" // Hides the "Click to Unmute" overlay if it autoplays 
+    }; 
+</script> 
+    <title>Dukem's Bunker</title> 
+    <style> 
+        :root { 
+            --bg-deep: #004080;        
+            --bg-wrapper: #1b4b7a;     
+            --accent-red: #CC0000;     
+            --accent-yellow: #FFFF00;  
+            --nav-bg: #C0C0C0; /* Classic Grey */ 
+            --text-dark: #000000;      
+        } 
+ 
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        } 
+ 
+        body { 
+            font-family: "Verdana", sans-serif; 
+            background-color: var(--bg-deep); 
+            color: #FFFFFF; 
+            font-size: 11px; 
+            padding: 10px 0; 
+        } 
+ 
+        /* Standard Link Hover */ 
+        a { color: var(--accent-yellow); text-decoration: none; font-weight: bold; } 
+        a:hover { color: white; text-decoration: none; } 
+        a:active { color: red; text-decoration: none; } 
+ 
+        .site-wrapper { 
+            width: 900px;  
+            margin: 0 auto; 
+            background-color: var(--bg-wrapper); 
+            border: 4px solid #002629; 
+        } 
+ 
+        header { 
+            background-color: ; 
+            padding: 10px; 
+            border-bottom: 5px solid var(--accent-red); 
+            text-align: left; 
+        } 
+         
+        .logo-area b { 
+            letter-spacing: -1px; 
+        } 
+ 
+        .search-bar { 
+            background: #C0C0C0; 
+            padding: 3px; 
+            border: 1px solid #FFF; 
+        } 
+ 
+        .search-bar input { border: 1px solid #777; padding: 2px; font-size: 10px; } 
+         
+        /* UPDATED: Search Button Hover */ 
+        .search-bar button {  
+            background: #e0e0e0;  
+            color: black;  
+            border: 1px solid #FFF;  
+            padding: 1px 5px;  
+            font-size: 10px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: all 0.1s; 
+        } 
+        .search-bar button:hover { 
+            background: var(--accent-yellow); 
+            border: 1px solid #000; 
+        } 
+ 
+        .nav-tabs { 
+            background: var(--nav-bg); 
+            display: flex; 
+            border-bottom: 1px solid #000; 
+        } 
+ 
+        .nav-tabs div { 
+            padding: 8px 15px; 
+            color: var(--text-dark); 
+            border-right: 2px solid #EEE; 
+            font-weight: bold; 
+            font-size: 10px; 
+        } 
+ 
+        .nav-tabs .active { 
+            background: #FFF; 
+            color: #CC0000; 
+            border-bottom: 1px solid #FFF; 
+        } 
+ 
+        .grid-main { 
+            display: grid; 
+            grid-template-columns: 160px 1fr 160px; 
+        } 
+ 
+        aside { 
+            background-color: #003366; 
+            padding: 10px; 
+            border: 1px solid #000; 
+        } 
+ 
+        .box-title { 
+    background: linear-gradient(to bottom, #ff3333 0%, #cc0000 50%, #990000 100%); 
+    border-radius: 4px 4px 0 0; /* Slight rounding on top */ 
+    text-shadow: 1px 1px #000; 
+            color: white; 
+            padding: 3px; 
+            font-size: 10px; 
+            font-weight: bold; 
+            margin-bottom: 8px; 
+            text-align: center; 
+            border: 2px solid #ff6666; 
+        } 
+         
+        .all-games { 
+    background: linear-gradient(to bottom, #ff3333 0%, #cc0000 50%, #990000 100%); 
+    border-radius: 4px 4px 4px 4px; /* Slight rounding on top */ 
+    text-shadow: 1px 1px #000; 
+            color: white; 
+            padding: 3px; 
+            font-size: 10px; 
+            font-weight: bold; 
+            margin-bottom: 8px; 
+            text-align: center; 
+            border: 2px solid #ff6666; 
+        } 
+ 
+        .cat-list { 
+            list-style: square inside url('/pt.gif'); 
+            margin-left: 8px; 
+            margin-bottom: 20px; 
+        } 
+ 
+        .cat-list li { padding: 3px 0; } 
+        .cat-list li a { color: #FFF; font-weight: normal; font-size: 10px; } 
+ 
+        main { 
+            background-color: #FFF; 
+            color: #000; 
+            padding: 10px; 
+            border-left: 2px solid #000; 
+            border-right: 2px solid #000; 
+        } 
+ 
+        .featured-game { 
+            border: 2px solid #000; 
+            margin-bottom: 20px; 
+        } 
+ 
+        .featured-header { 
+            background: #444; 
+            color: var(--accent-yellow); 
+            padding: 4px; 
+            font-weight: bold; 
+            text-align: center; 
+            font-size: 12px; 
+            border-bottom: 2px solid #000; 
+        } 
+ 
+        .game-placeholder { 
+            height: 400px;  
+            width: 100%; 
+            background: #000; 
+        } 
+         
+        #ad-crop-container { 
+            width: 140px;          /* Your desired "cropped" width */ 
+            height: 100px;         /* Your desired "cropped" height */ 
+            overflow: hidden;      /* This does the actual cropping */ 
+            position: relative; 
+            border: 1px solid #555; 
+            margin: 0 auto; 
+        } 
+ 
+        #ad-crop-container ruffle-player { 
+            position: absolute; 
+            width: 300px !important; /* The actual full width of the SWF */ 
+            height: 200px !important;/* The actual full height of the SWF */ 
+            top: -20px;              /* Move UP to crop the top */ 
+            left: -50px;             /* Move LEFT to crop the left side */ 
+        } 
+ 
+        .game-grid { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 10px; 
+            background: #CCC; 
+            padding: 10px; 
+            border: 1px solid #FFF; 
+        } 
+ 
+        /* UPDATED: Game Icon Hover */ 
+        .game-icon {  
+            text-align: center;  
+            background: #EEE;  
+            border: 1px solid #777;  
+            padding: 5px;  
+            cursor: pointer; 
+            transition: transform 0.1s, background 0.1s; 
+        } 
+        .game-icon:hover { 
+            background: #FFF; 
+            border-color: var(--accent-red); 
+        } 
+ 
+        .icon-box { 
+            width: 60px; 
+            height: 50px; 
+            background: #999; 
+            margin: 0 auto 5px; 
+            border: 1px solid #000; 
+        } 
+ 
+        .icon-title { font-size: 9px; font-weight: bold; color: #000; } 
+ 
+        .online-box { 
+            background: #000;  
+            border: 1px solid var(--accent-yellow); 
+            padding: 5px; 
+        } 
+ 
+        footer { 
+            background: #000; 
+            padding: 15px; 
+            text-align: center; 
+            color: #AAA; 
+            font-size: 9px; 
+            border-top: 2px solid var(--accent-yellow); 
+        } 
+    </style> 
+</head> 
+<body> 
+ 
+    <div class="site-wrapper"> 
+        <header> 
+            <table width="100%"> 
+                <tr> 
+                    <td class="logo-area"> 
+                        <font size="6" color="#FFFF00" face="Arial Black"><a href="/index.html">dukem's bunker</a></font><br> 
+                        <font size="2" color="#FFFFFF"><i>free fun web games</i></font> 
+                    </td> 
+                    <td align="right"> 
+                        <a href="https://web.archive.org/web/20070505122048/http://www.ebay.com/"><img src="/ebay-ad.gif"></a> 
+                    </td> 
+                </tr> 
+            </table> 
+        </header> 
+ 
+        <nav class="nav-tabs"> 
+            <div>last updated on may 10, 2026, 10:40 AM EST</div> 
+        </nav> 
+ 
+        <div class="grid-main"> 
+            <aside> 
+                <div class="box-title">latest additions</div> 
+                <ul class="cat-list"> 
+                    <li><a href="/games/aggressivealpineskiing.html">Aggressive Skiing</a></li> 
+                    <li><a href="/games/tag.html">Tag</a></li> 
+                    <li><a href="/games/cardforge.html">CardForge</a></li> 
+                    <li><a href="/games/ducklife.html">Duck Life</a></li> 
+                    <li><a href="/games/epicbattlefantasy2.html">Epic Battle Fantasy 2</a></li> 
+                </ul> 
+                 
+                <div class="box-title">hidden gems</div> 
+                <ul class="cat-list"> 
+                    <li><a href="/games/ducklife.html">CardForge</a></li> 
+                    <li><a href="/games/cardforge.html">Cubefield</a></li> 
+                    <li><a href="/games/icefishing.html">Ice Fishing</a></li> 
+                    <li><a href="/games/oldenburg2.html">Oldenburg 2</a></li> 
+                    <li><a href="/games/epicbattlefantasy2.html">Wii Tanks!</a></li> 
+                </ul> 
+                 
+                <div class="box-title">always popular</div> 
+                <ul class="cat-list"> 
+                    <li><a href="/games/basketrandom.html">Basket Random</a></li> 
+                    <li><a href="/games/btd3.html">Bloons TD 3</a></li> 
+                    <li><a href="/games/indestructotank.html">Indestructotank</a></li> 
+                    <li><a href="/games/jacksmith.html">Jacksmith</a></li> 
+                    <li><a href="/games/obelisk2.html">Obelisk 2</a></li> 
+                </ul> 
+ 
+                <div class="box-title">players online</div> 
+                <div class="online-box"> 
+                    <span style="color: var(--accent-yellow);"><strong id="player-count">0</strong> players</span> 
+                </div> 
+                <script> 
+(function() { 
+    // Start at the desired average 
+    let count = 21;  
+    const display = document.getElementById('player-count'); 
+ 
+    function updateCounter() { 
+        // Range: -3, -2, -1, 0, 1, 2, 3 
+        // Since the range is balanced, the average remains 21 over time. 
+        let change = Math.floor(Math.random() * 7) - 3; 
+ 
+        // Update count but prevent it from dropping below a realistic minimum (like 5) 
+        // and keep it from drifting too far from 21 
+        count = count + change; 
+ 
+        // Soft correction: If it drifts too far from 21, nudge it back 
+        if (count > 30) count -= 2; 
+        if (count < 12) count += 2; 
+ 
+        if (display) { 
+            display.innerText = count; 
+        } 
+ 
+        // Random interval between 2-5 seconds 
+        let nextTick = Math.floor(Math.random() * 3000) + 2000; 
+        setTimeout(updateCounter, nextTick); 
+    } 
+ 
+    updateCounter(); 
+})(); 
+                </script> 
+            </aside> 
+ 
+            <main> 
+                <div class="featured-game"> 
+                    <div class="featured-header"><font color="yellow">featured game</font></div> 
+                    <div class="game-placeholder" id="flash-container"></div> 
+ 
+                    <script> 
+                        window.addEventListener("load", (event) => { 
+                            const ruffle = window.RufflePlayer.newest(); 
+                            const player = ruffle.createPlayer(); 
+                            const container = document.getElementById("flash-container"); 
+                            container.appendChild(player); 
+                            player.load("learntoflyidle.swf"); // Make sure this path is correct! 
+         
+                            // Match your CSS dimensions 
+                            player.style.width = "100%"; 
+                            player.style.height = "100%"; 
+                        }); 
+                    </script> 
+                </div> 
+ 
+                <center> 
+                <a href="https://web.archive.org/web/20070503215314/http://java.com/en/"><img src="/javapowered.gif"></a><br><br> 
+                   <b>featured selection</b> 
+                   </center><br> 
+ 
+                <div class="game-grid"> 
+                    <div class="game-icon"><a href="/games/pool.html"><img src="/eightball.jpg" class="icon-box"><div class="icon-title">8 Ball Pool</div></a></div> 
+                    <div class="game-icon"><a href="/games/chess.html"><img src="/chess.jpg" class="icon-box"><div class="icon-title">Chess</div></a></div> 
+                    <div class="game-icon"><a href="/games/cardforge.html"><img src="/fireball.jpg" class="icon-box"><div class="icon-title">CardForge</div></a></div> 
+                    <div class="game-icon"><a href="/games/indestructotank.html"><img src="/tank.png" class="icon-box"><div class="icon-title">Indestructotank</div></a></div> 
+                    <div class="game-icon"><a href="/games/soccerchaos.html"><img src="/soccer.jpg" class="icon-box"><div class="icon-title">Soccer Chaos</div></a></div> 
+                    <div class="game-icon"><a href="/games/obelisk2.html"><img src="/snake.jpg" class="icon-box"><div class="icon-title">Obelisk 2</div></a></div> 
+                    <div class="game-icon"><a href="/games/jacksmith.html"><img src="/donkey.jpg" class="icon-box"><div class="icon-title">Jacksmith</div></a></div> 
+                    <div class="game-icon"><a href="/games/missilegame.html"><img src="/missile.jpg" class="icon-box"><div class="icon-title">Missile Game 3D</div></a></div> 
+                </div> 
+            </main> 
+ 
+<aside> 
+    <div class="box-title">top ten games</div> 
+    <ol style="padding-left: 20px; font-size: 10px; color: #FFF;"> 
+        <li><a href="/games/pool.html">8 Ball Pool</a></li> 
+        <li><a href="/games/indestructotank.html">Indestructotank</a></li> 
+        <li><a href="/games/basketrandom.html">Basket Random</a></li> 
+        <li><a href="/games/stickrpg.html">Stick RPG</a></li> 
+        <li><a href="/games/monsquas.html">Monsquas</a></li> 
+        <li><a href="/games/obelisk2.html">Obelisk 2</a></li> 
+        <li><a href="/games/papasburgeria.html">Papa's Burgeria</a></li> 
+        <li><a href="/games/soccerchaos.html">Soccer Chaos</a></li> 
+        <li><a href="/games/interactivebuddy.html">Interactive Buddy</a></li> 
+        <li><a href="/games/interactivebuddy.html">Missile Game 3D</a></li> 
+    </ol> 
+    <br> 
+     
+    <div class="all-games"><font size="4"><a href="/games/index.html">all games</a></font></div> 
+ 
+<div class="box-title" style="margin-top: 20px;">advertisement</div> 
+ 
+<a href="https://web.archive.org/web/20070504032748/http://clubpenguin.com/"><embed src="clubpenguinad.swf" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="139" height="139"></a> 
+<br> 
+<u><a href="https://web.archive.org/web/20070504032748/http://clubpenguin.com/">Club Penguin: Waddle around and meet new friends!</a> 
+    </u></aside> 
+        </div> 
+ 
+        <footer> 
+            Copyright &copy; 1999-2026 Bunker inc. All Rights Reserved.<br> 
+            Optimized for <a href="https://www.firefox.com/">Firefox</a> and powered by <a href="https://ruffle.rs/">Ruffle</a>. 
+        </footer> 
+    </div> 
+ 
+</body> 
+</html>
